@@ -1,4 +1,4 @@
-package co.udea.edatos.modelo;
+package co.udea.edu.edatos.modelo;
 
 //ES UN POJO
 public class Estudiante {

@@ -1,6 +1,6 @@
 package co.udea.edu.edatos.dao.impl;
 
-import co.udea.edatos.modelo.Estudiante;
+import co.udea.edu.edatos.modelo.Estudiante;
 import co.udea.edu.edatos.dao.EstudianteDAO;
 import co.udea.edu.edatos.dao.exception.LlaveDuplicadaException;
 
