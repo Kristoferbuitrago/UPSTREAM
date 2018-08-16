@@ -1,6 +1,7 @@
 package co.udea.edu.edatos.negocio.impl;
 
-import co.udea.edatos.modelo.Estudiante;
+import co.udea.edu.edatos.dao.impl.EstudianteDAOFile;
+import co.udea.edu.edatos.modelo.Estudiante;
 import co.udea.edu.edatos.dao.EstudianteDAO;
 import co.udea.edu.edatos.dao.exception.LlaveDuplicadaException;
 import co.udea.edu.edatos.dao.impl.EstudianteDAOList;
@@ -13,7 +14,7 @@ public class EstudianteBsnImpl implements EstudianteBsn {
     private EstudianteDAO estudianteDAO;
 
     public EstudianteBsnImpl(){
-        estudianteDAO = new EstudianteDAOList();
+        estudianteDAO = new EstudianteDAOFile();
     }
 
     public void crearEstudiante(Estudiante estudiante) throws EstudianteYaExisteException {

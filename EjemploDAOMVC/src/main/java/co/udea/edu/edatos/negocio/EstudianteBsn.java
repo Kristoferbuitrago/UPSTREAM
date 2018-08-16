@@ -1,6 +1,6 @@
 package co.udea.edu.edatos.negocio;
 
-import co.udea.edatos.modelo.Estudiante;
+import co.udea.edu.edatos.modelo.Estudiante;
 import co.udea.edu.edatos.negocio.impl.EstudianteYaExisteException;
 
 import java.util.List;

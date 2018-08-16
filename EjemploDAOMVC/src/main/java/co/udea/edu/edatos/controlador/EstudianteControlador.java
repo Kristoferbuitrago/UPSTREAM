@@ -1,6 +1,6 @@
-package co.udea.edatos.controlador;
+package co.udea.edu.edatos.controlador;
 
-import co.udea.edatos.modelo.Estudiante;
+import co.udea.edu.edatos.modelo.Estudiante;
 import co.udea.edu.edatos.negocio.EstudianteBsn;
 import co.udea.edu.edatos.negocio.impl.EstudianteBsnImpl;
 import co.udea.edu.edatos.negocio.impl.EstudianteYaExisteException;
@@ -59,8 +59,5 @@ public class EstudianteControlador {
 
             }
         }
-
-
     }
-
 }

@@ -1,5 +1,5 @@
 package co.udea.edu.edatos.dao;
-import co.udea.edatos.modelo.Estudiante;
+import co.udea.edu.edatos.modelo.Estudiante;
 import co.udea.edu.edatos.dao.exception.LlaveDuplicadaException;
 
 import java.util.List;
