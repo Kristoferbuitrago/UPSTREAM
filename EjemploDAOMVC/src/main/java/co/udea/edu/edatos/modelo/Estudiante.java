@@ -10,6 +10,8 @@ public class Estudiante {
     private int edad;
     private int programa;
 
+    public Estudiante(){}
+
     public Estudiante(String id, String nombres, String apellidos, int edad, int programa) {
         this.id = id;
         this.nombres = nombres;

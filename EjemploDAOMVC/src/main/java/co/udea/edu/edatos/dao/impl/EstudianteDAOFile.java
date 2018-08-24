@@ -5,8 +5,6 @@ import co.udea.edu.edatos.dao.exception.LlaveDuplicadaException;
 import co.udea.edu.edatos.modelo.Estudiante;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,6 @@ public class EstudianteDAOFile implements EstudianteDAO {
 
     @Override
     public void crearEstudiante(Estudiante estudiante) throws LlaveDuplicadaException {
-        Charset charset = Charset.forName("US-ASCII");
         String s = convertirEstudianteACaracteres(estudiante);
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true));
