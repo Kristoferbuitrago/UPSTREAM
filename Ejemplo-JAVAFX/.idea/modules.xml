@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/repo_ppal.iml" filepath="$PROJECT_DIR$/repo_ppal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ejemplo-JAVAFX.iml" filepath="$PROJECT_DIR$/Ejemplo-JAVAFX.iml" />
     </modules>
   </component>
 </project>
