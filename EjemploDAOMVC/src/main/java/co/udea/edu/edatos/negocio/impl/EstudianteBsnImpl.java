@@ -25,9 +25,16 @@ public class EstudianteBsnImpl implements EstudianteBsn {
         try{
             estudianteDAO.crearEstudiante(estudiante);
         }catch(LlaveDuplicadaException llaveDuplicadaException){
+            System.out.println("El estudiante ya existe, lo actualizaré");
+            estudianteDAO.actualizarEstudiante(estudiante);
             throw new EstudianteYaExisteException();
         }
 
+    }
+
+    @Override
+    public Estudiante listarEstudiante(String id) {
+        return estudianteDAO.consultarEstudiante(id);
     }
 
     @Override

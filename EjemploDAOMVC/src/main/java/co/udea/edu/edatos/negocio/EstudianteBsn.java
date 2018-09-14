@@ -9,5 +9,6 @@ public interface EstudianteBsn {
 
     void crearEstudiante(Estudiante estudiante) throws EstudianteYaExisteException;
 
+    Estudiante listarEstudiante(String id);
     List<Estudiante> listarEstudiantes();
 }

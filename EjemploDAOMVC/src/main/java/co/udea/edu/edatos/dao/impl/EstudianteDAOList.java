@@ -37,4 +37,9 @@ public class EstudianteDAOList implements EstudianteDAO {
             estudiantesBD.remove(est);
         }
     }
+
+    @Override
+    public void actualizarEstudiante(Estudiante estudiante) {
+
+    }
 }

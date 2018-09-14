@@ -13,9 +13,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.WRITE;
 
 public class EstudianteDAONIOFile implements EstudianteDAO {
 
@@ -29,6 +32,8 @@ public class EstudianteDAONIOFile implements EstudianteDAO {
     private static final String ENCODING_WINDOWS = "ASCII";
 
     private static final Path archivo = Paths.get(NOMBRE_ARCHIVO);
+    private static final Map<String, Integer> indice = new HashMap<>();
+    private static int direccion=0;
 
     public EstudianteDAONIOFile(){
         if(!Files.exists(archivo)){
@@ -37,6 +42,24 @@ public class EstudianteDAONIOFile implements EstudianteDAO {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        crearIndice();
+    }
+
+    private void crearIndice() {
+        System.out.println("Creando índice");
+        try(SeekableByteChannel sbc = Files.newByteChannel(archivo)){
+            ByteBuffer buffer = ByteBuffer.allocate(LONGITUD_REGISTRO);
+            while (sbc.read(buffer)>0){
+                //devuelve el apuntador del buffer al principio
+                buffer.rewind();
+                CharBuffer registro = Charset.forName(ENCODING_WINDOWS).decode(buffer);
+                Estudiante estudianteConvertido = parseEstudiante2Objeto(registro);
+                indice.put(estudianteConvertido.getId(), direccion++);
+                buffer.flip();
+            }
+        }catch(IOException ioe){
+            ioe.printStackTrace();
         }
     }
 
@@ -52,8 +75,26 @@ public class EstudianteDAONIOFile implements EstudianteDAO {
         ByteBuffer buffer = ByteBuffer.wrap(datos);
         try(FileChannel fc = (FileChannel.open(archivo, APPEND))){
             fc.write(buffer);
+            indice.put(estudiante.getId(),direccion++);
         }catch (IOException ioe){
             ioe.printStackTrace();
+        }
+    }
+
+    @Override
+    public void actualizarEstudiante(Estudiante estudiante) {
+        Integer direccionEstudianteActual = indice.get(estudiante.getId());
+        if(direccionEstudianteActual!=null) {
+            String registro = parseEstudiante2String(estudiante);
+            byte[] datos = registro.getBytes();
+            ByteBuffer buffer = ByteBuffer.wrap(datos);
+            try (FileChannel fc = (FileChannel.open(archivo, WRITE))) {
+                fc.position(direccionEstudianteActual*LONGITUD_REGISTRO);
+                fc.write(buffer);
+                indice.put(estudiante.getId(), direccionEstudianteActual);
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            }
         }
     }
 
@@ -61,21 +102,23 @@ public class EstudianteDAONIOFile implements EstudianteDAO {
 
     @Override
     public Estudiante consultarEstudiante(String id) {
-        try(SeekableByteChannel sbc = Files.newByteChannel(archivo)){
-            ByteBuffer buffer = ByteBuffer.allocate(LONGITUD_REGISTRO);
-            while (sbc.read(buffer)>0){
+        Integer direccion = indice.get(id);
+        if(direccion !=null){
+            System.out.println("Encontró el id en el índice, usa la dirección para ir a memoria secundaria");
+            try(SeekableByteChannel sbc = Files.newByteChannel(archivo)){
+                ByteBuffer buffer = ByteBuffer.allocate(LONGITUD_REGISTRO);
+                sbc.position(direccion*LONGITUD_REGISTRO);
+                sbc.read(buffer);
                 //devuelve el apuntador del buffer al principio
                 buffer.rewind();
                 CharBuffer registro = Charset.forName(ENCODING_WINDOWS).decode(buffer);
                 Estudiante estudianteConvertido = parseEstudiante2Objeto(registro);
-                if(estudianteConvertido.getId().equals(id)){
-                    return estudianteConvertido;
-                }
-                buffer.flip();
+                return estudianteConvertido;
+            }catch(IOException ioe){
+                ioe.printStackTrace();
             }
-        }catch(IOException ioe){
-            ioe.printStackTrace();
         }
+        System.out.println("No se encontró el registró en el índice");
         return null;
 
     }

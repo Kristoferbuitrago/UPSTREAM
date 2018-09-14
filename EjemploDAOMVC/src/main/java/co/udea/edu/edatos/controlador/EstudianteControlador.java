@@ -50,7 +50,10 @@ public class EstudianteControlador {
                     break;
 
                 case "2":
-                    System.out.println("función no implementada aún");
+                    System.out.println("Ingrese el id del estudiante a consultar: ");
+                    id = lector.next();
+                    Estudiante estudiante = estudianteBsn.listarEstudiante(id);
+                    System.out.println(estudiante);
                     break;
                 case "3":
                     List<Estudiante> estudiantes = estudianteBsn.listarEstudiantes();
